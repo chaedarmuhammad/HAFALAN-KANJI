@@ -674,7 +674,7 @@ let cardMode = 'k2a';
 function renderCard() {
   flipped = false;
   const r = deck[idx];
-  cardMode = mode === 'srs' ? 'a2k' : (mode === 'mix' ? (idx % 2 === 0 ? 'k2a' : 'a2k') : mode);
+  cardMode = mode === 'srs' ? 'k2a' : (mode === 'mix' ? (idx % 2 === 0 ? 'k2a' : 'a2k') : mode);
   document.getElementById('card-badge').textContent = cardMode === 'k2a' ? 'Kanji \u2192 Arti' : 'Arti \u2192 Kanji';
   document.getElementById('card-no').textContent = '#' + r[0];
   const main = document.getElementById('card-main');
