@@ -18,18 +18,19 @@
 :root{--bg:#0f0e0d;--surface:#1a1917;--surface2:#242220;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);--text:#f0ede8;--text2:#9a9590;--text3:#5c5954;--accent:#e8c97a;--accent2:#c4a355;--green:#6dbf8a;--red:#e07070;--blue:#7aade8;--green-bg:rgba(109,191,138,0.12);--red-bg:rgba(224,112,112,0.12);--blue-bg:rgba(122,173,232,0.12);--radius:12px;--radius-lg:18px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column}
-header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;border-bottom:1px solid var(--border)}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--border);background:var(--surface)}
 .logo{display:flex;align-items:baseline;gap:10px}
-.logo-kanji{font-family:'Noto Serif JP',serif;font-size:22px;color:var(--accent);line-height:1}
+.logo-kanji{font-family:'Noto Serif JP',serif;font-size:24px;color:var(--accent);line-height:1}
 .logo-text{font-size:13px;font-weight:300;color:var(--text2);letter-spacing:0.08em;text-transform:uppercase}
 .header-right{display:flex;gap:12px;align-items:center}
 .header-stats{display:flex;gap:20px;font-size:12px;color:var(--text3)}
 .header-stat span{color:var(--text2);font-weight:500}
 .screen{display:none;flex:1}.screen.active{display:flex;flex-direction:column}
 
-#screen-select{max-width:860px;margin:0 auto;width:100%;padding:40px 32px;gap:28px}
-.section-title{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px}
+#screen-select{max-width:900px;margin:0 auto;width:100%;padding:48px 32px;gap:36px}
+.section-title{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';display:inline-block;width:3px;height:12px;background:var(--accent);border-radius:2px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px}
 .range-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .range-row label{font-size:13px;color:var(--text2)}
 .num-input{width:72px;padding:8px 10px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;transition:border-color 0.2s}
@@ -47,9 +48,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 .mode-btn{padding:9px 20px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s}
 .mode-btn:hover{border-color:var(--border2);color:var(--text)}
 .mode-btn.on{border-color:var(--accent);color:var(--accent);background:rgba(232,201,122,0.08)}
-.sel-footer{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:8px}
 .sel-count{font-size:13px;color:var(--text2);margin-left:auto}
-.sel-count strong{color:var(--accent)}
+.sel-count strong{color:var(--accent);font-size:15px}
 
 
 /* Quiz Screen */
@@ -108,23 +108,32 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 .res-red .res-num{color:var(--red)}
 .result-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 /* Dashboard Screen */
-#screen-dashboard{max-width:860px;margin:0 auto;width:100%;padding:40px 32px;gap:28px}
-.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-.dash-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;text-align:center}
-.dash-num{font-size:36px;font-weight:500;line-height:1;margin-bottom:8px}
-.dash-label{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em}
+#screen-dashboard{max-width:900px;margin:0 auto;width:100%;padding:48px 32px;gap:32px}
+.dash-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.dash-header-title{font-size:20px;font-weight:400;color:var(--text);display:flex;align-items:center;gap:10px}
+.dash-header-title span{font-family:'Noto Serif JP',serif;color:var(--accent)}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.dash-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 20px;text-align:center;position:relative;overflow:hidden}
+.dash-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.dash-card.dash-green::before{background:var(--green)}
+.dash-card.dash-accent::before{background:var(--accent)}
+.dash-card.dash-blue::before{background:var(--blue)}
+.dash-card.dash-default::before{background:var(--text3)}
+.dash-num{font-size:32px;font-weight:500;line-height:1;margin-bottom:8px}
+.dash-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em}
 .dash-green .dash-num{color:var(--green)}
 .dash-red .dash-num{color:var(--red)}
 .dash-accent .dash-num{color:var(--accent)}
 .dash-blue .dash-num{color:var(--blue)}
-.progress-bar-wrap{width:100%;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;margin-top:12px}
-.progress-bar-inner{height:100%;background:var(--green);border-radius:4px;transition:width 0.5s}
-.dash-history{margin-top:16px}
-.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;border:1px solid var(--border);margin-bottom:8px;font-size:13px}
+.progress-bar-wrap{width:100%;height:10px;background:var(--surface2);border-radius:5px;overflow:hidden;margin-top:12px}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:5px;transition:width 0.5s}
+.dash-history{margin-top:0}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-radius:10px;border:1px solid var(--border);margin-bottom:10px;font-size:13px;transition:border-color 0.2s}
+.history-item:hover{border-color:var(--border2)}
 .history-date{color:var(--text2)}
 .history-score{font-weight:500}
 /* Export/Import */
-.io-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.io-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .io-row input[type="file"]{display:none}
 
 /* Scrollbar & Responsive */
@@ -133,7 +142,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 @media(max-width:500px){
   header{padding:14px 18px}
-  #screen-select,#screen-dashboard{padding:24px 16px}
+  #screen-select,#screen-dashboard{padding:24px 16px;gap:24px}
   #screen-quiz{padding:24px 16px}
   .card-main{font-size:52px}
   .header-stats{display:none}
@@ -185,8 +194,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 
 <!-- SELECT SCREEN -->
 <div id="screen-select" class="screen active">
+  <!-- Section 1: Pilih Rentang -->
   <div>
-    <p class="section-title">Rentang nomor</p>
+    <p class="section-title">Pilih Rentang Kanji</p>
     <div class="panel">
       <div class="range-row">
         <label>Dari nomor</label>
@@ -197,49 +207,53 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
       </div>
     </div>
   </div>
+
+  <!-- Section 2: Mode & Mulai Kuis -->
   <div>
-    <p class="section-title">Test Kanji per Bagian</p>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Pilih bagian yang ingin di-test. Setiap bagian berisi 25 kanji. Warna menunjukkan tingkat penguasaan.</p>
-    <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#c0392b;display:inline-block"></span> &lt;50%</span>
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#f39c12;display:inline-block"></span> 50-79%</span>
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#27ae60;display:inline-block"></span> &#8805;80%</span>
-    </div>
-    <div class="test-grid" id="main-test-grid"></div>
-    <div id="main-test-footer" style="margin-top:16px;display:none">
-      <div class="panel" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-        <span style="font-size:13px;color:var(--text2)">Mode test:</span>
-        <div class="mode-group">
-          <button class="mode-btn on" id="main-test-mode-k2a" onclick="setMainTestMode('k2a')">Kanji &#8594; Arti</button>
-          <button class="mode-btn" id="main-test-mode-a2k" onclick="setMainTestMode('a2k')">Arti &#8594; Kanji</button>
-          <button class="mode-btn" id="main-test-mode-mix" onclick="setMainTestMode('mix')">Campur</button>
-        </div>
-        <button class="btn btn-accent" style="margin-left:auto;padding:11px 24px" onclick="startMainTestQuiz()">Mulai Test &#8594;</button>
-        <div style="width:100%;margin-top:4px">
-          <label style="font-size:12px;color:var(--text3);display:flex;align-items:center;gap:8px;cursor:pointer">
-            <input type="checkbox" id="main-test-weak-only" style="accent-color:var(--accent)">
-            Hanya kanji yang belum dikuasai
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div>
-    <p class="section-title">Mode kuis</p>
-    <div class="panel">
+    <p class="section-title">Mode Kuis</p>
+    <div class="panel" style="display:flex;flex-direction:column;gap:18px">
       <div class="mode-group">
         <button class="mode-btn on" id="mode-k2a" onclick="setMode('k2a')">Kanji &#8594; Arti</button>
         <button class="mode-btn" id="mode-a2k" onclick="setMode('a2k')">Arti &#8594; Kanji</button>
         <button class="mode-btn" id="mode-mix" onclick="setMode('mix')">Campur</button>
         <button class="mode-btn" id="mode-srs" onclick="setMode('srs')">SRS Mode</button>
       </div>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--border)">
+        <button class="btn btn-accent" style="padding:12px 28px;font-size:14px" onclick="startQuiz()">Mulai Kuis &#8594;</button>
+        <button class="btn btn-sm" onclick="selectAll()">Pilih semua</button>
+        <button class="btn btn-sm" onclick="clearAll()">Hapus semua</button>
+        <span class="sel-count" id="sel-count">Dipilih: <strong>100</strong> kanji</span>
+      </div>
     </div>
   </div>
-  <div class="sel-footer">
-    <button class="btn btn-accent" style="padding:11px 28px;font-size:14px" onclick="startQuiz()">Mulai kuis &#8594;</button>
-    <button class="btn btn-sm" onclick="selectAll()">Pilih semua</button>
-    <button class="btn btn-sm" onclick="clearAll()">Hapus semua</button>
-    <span class="sel-count" id="sel-count">Dipilih: <strong>100</strong> kanji</span>
+
+  <!-- Section 3: Test per Bagian -->
+  <div>
+    <p class="section-title">Test Kanji per Bagian</p>
+    <div class="panel" style="display:flex;flex-direction:column;gap:14px">
+      <p style="font-size:13px;color:var(--text2);margin:0">Pilih bagian yang ingin di-test. Setiap bagian berisi 25 kanji.</p>
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:12px;height:12px;border-radius:3px;background:#c0392b;display:inline-block"></span> &lt;50%</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:12px;height:12px;border-radius:3px;background:#f39c12;display:inline-block"></span> 50-79%</span>
+        <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:12px;height:12px;border-radius:3px;background:#27ae60;display:inline-block"></span> &#8805;80%</span>
+      </div>
+      <div class="test-grid" id="main-test-grid"></div>
+      <div id="main-test-footer" style="display:none;padding-top:14px;border-top:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <span style="font-size:13px;color:var(--text2)">Mode:</span>
+          <div class="mode-group">
+            <button class="mode-btn on" id="main-test-mode-k2a" onclick="setMainTestMode('k2a')">Kanji &#8594; Arti</button>
+            <button class="mode-btn" id="main-test-mode-a2k" onclick="setMainTestMode('a2k')">Arti &#8594; Kanji</button>
+            <button class="mode-btn" id="main-test-mode-mix" onclick="setMainTestMode('mix')">Campur</button>
+          </div>
+          <button class="btn btn-accent" style="margin-left:auto;padding:11px 24px" onclick="startMainTestQuiz()">Mulai Test &#8594;</button>
+        </div>
+        <label style="font-size:12px;color:var(--text3);display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:12px">
+          <input type="checkbox" id="main-test-weak-only" style="accent-color:var(--accent)">
+          Hanya kanji yang belum dikuasai
+        </label>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -302,33 +316,41 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 
 <!-- DASHBOARD SCREEN -->
 <div id="screen-dashboard" class="screen">
-  <div style="display:flex;align-items:center;justify-content:space-between">
-    <p class="section-title" style="margin:0">Dashboard Progress</p>
+  <div class="dash-header">
+    <div class="dash-header-title"><span>統</span> Dashboard Progress</div>
     <button class="btn btn-sm" onclick="showScreen('select')">&#8592; Kembali</button>
   </div>
+
+  <!-- Stats Cards -->
   <div class="dash-grid" id="dash-grid"></div>
+
+  <!-- Progress Bar -->
   <div>
     <p class="section-title">Progress Keseluruhan</p>
     <div class="panel">
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px">
         <span style="color:var(--text2)">Kanji dikuasai</span>
         <span id="dash-pct" style="color:var(--green);font-weight:500">0%</span>
       </div>
       <div class="progress-bar-wrap"><div class="progress-bar-inner" id="dash-progress"></div></div>
     </div>
   </div>
+
+  <!-- Riwayat Sesi -->
   <div>
-    <p class="section-title">Riwayat Sesi (5 terakhir)</p>
+    <p class="section-title">Riwayat Sesi</p>
     <div class="panel" id="dash-history"><p style="font-size:13px;color:var(--text3)">Belum ada riwayat.</p></div>
   </div>
+
+  <!-- Data Management -->
   <div>
-    <p class="section-title">Export / Import Data</p>
+    <p class="section-title">Kelola Data</p>
     <div class="panel">
       <div class="io-row">
-        <button class="btn" onclick="exportData()">Export Progress (JSON)</button>
+        <button class="btn" onclick="exportData()">Export Progress</button>
         <button class="btn" onclick="document.getElementById('import-file').click()">Import Progress</button>
         <input type="file" id="import-file" accept=".json" onchange="importData(event)">
-        <button class="btn btn-danger btn-sm" onclick="resetAllData()">Reset Semua Data</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:auto" onclick="resetAllData()">Reset Semua</button>
       </div>
     </div>
   </div>
@@ -547,7 +569,7 @@ function renderDashboard() {
     <div class="dash-card dash-green"><div class="dash-num">${mastered}</div><div class="dash-label">Dikuasai</div></div>
     <div class="dash-card dash-accent"><div class="dash-num">${reviewed}</div><div class="dash-label">Pernah Review</div></div>
     <div class="dash-card dash-blue"><div class="dash-num">${due}</div><div class="dash-label">Perlu Review</div></div>
-    <div class="dash-card"><div class="dash-num">${data.totalReviews}</div><div class="dash-label">Total Review</div></div>
+    <div class="dash-card dash-default"><div class="dash-num">${data.totalReviews}</div><div class="dash-label">Total Review</div></div>
   `;
 
   // Progress bar
