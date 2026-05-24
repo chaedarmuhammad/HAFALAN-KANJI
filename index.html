@@ -160,6 +160,29 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 /* Toast notification */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:12px 20px;font-size:13px;color:var(--text);z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none}
 .toast.show{opacity:1}
+
+/* Test Kanji Grid */
+.test-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.test-block{border-radius:var(--radius);padding:20px 14px;text-align:center;cursor:pointer;transition:all 0.2s;border:2px solid transparent;position:relative;user-select:none}
+.test-block:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+.test-block.selected-block{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,0.3)}
+.test-block-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px}
+.test-block-range{font-size:11px;color:rgba(255,255,255,0.7)}
+.test-block-pct{font-size:20px;font-weight:600;color:#fff;margin-top:8px}
+.test-block-label{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;text-transform:uppercase;letter-spacing:0.05em}
+.test-block.level-red{background:#c0392b}
+.test-block.level-yellow{background:#d4850a}
+.test-block.level-green{background:#27ae60}
+.test-block.level-gray{background:var(--surface2)}
+.test-block.level-gray .test-block-range,.test-block.level-gray .test-block-label{color:var(--text3)}
+.test-block.level-gray .test-block-title,.test-block.level-gray .test-block-pct{color:var(--text2)}
+@media(max-width:500px){
+  .test-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+  .test-block{padding:14px 10px}
+  .test-block-title{font-size:12px}
+  .test-block-pct{font-size:18px}
+  #screen-test > div:first-child,#screen-test .test-grid,#screen-test #test-footer{padding-left:16px!important;padding-right:16px!important}
+}
 </style>
 </head>
 <body>
@@ -174,6 +197,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
       <div class="header-stat">Total: <span>557</span> kanji</div>
       <div class="header-stat">Dikuasai: <span id="h-mastered">0</span></div>
     </div>
+    <button class="btn btn-sm" onclick="showScreen('test')">Test Kanji</button>
     <button class="btn btn-sm" onclick="showScreen('dashboard')">Dashboard</button>
   </div>
 </header>
@@ -280,6 +304,40 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
     <button class="btn btn-accent" onclick="retryUnknown()">Ulangi yang belum &#8594;</button>
     <button class="btn" onclick="retryAll()">Ulangi semua</button>
     <button class="btn" onclick="backToSelect()">Pilih kanji lain</button>
+  </div>
+</div>
+
+<!-- TEST KANJI SCREEN -->
+<div id="screen-test" class="screen">
+  <div style="display:flex;align-items:center;justify-content:space-between;max-width:860px;margin:0 auto;width:100%;padding:40px 32px 0">
+    <p class="section-title" style="margin:0">Test Kanji per Bagian</p>
+    <button class="btn btn-sm" onclick="showScreen('select')">&#8592; Kembali</button>
+  </div>
+  <div style="max-width:860px;margin:0 auto;width:100%;padding:16px 32px">
+    <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Pilih bagian yang ingin di-test. Setiap bagian berisi 25 kanji. Warna menunjukkan tingkat penguasaan.</p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#c0392b;display:inline-block"></span> Belum dikuasai (&lt;50%)</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#f39c12;display:inline-block"></span> Sedang proses (50-79%)</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#27ae60;display:inline-block"></span> Dikuasai (&#8805;80%)</span>
+    </div>
+  </div>
+  <div class="test-grid" id="test-grid" style="max-width:860px;margin:0 auto;width:100%;padding:0 32px 40px"></div>
+  <div id="test-footer" style="max-width:860px;margin:0 auto;width:100%;padding:0 32px 40px;display:none">
+    <div class="panel" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <span style="font-size:13px;color:var(--text2)">Mode test:</span>
+      <div class="mode-group">
+        <button class="mode-btn on" id="test-mode-k2a" onclick="setTestMode('k2a')">Kanji &#8594; Arti</button>
+        <button class="mode-btn" id="test-mode-a2k" onclick="setTestMode('a2k')">Arti &#8594; Kanji</button>
+        <button class="mode-btn" id="test-mode-mix" onclick="setTestMode('mix')">Campur</button>
+      </div>
+      <button class="btn btn-accent" style="margin-left:auto;padding:11px 24px" onclick="startTestQuiz()">Mulai Test &#8594;</button>
+      <div style="width:100%;margin-top:4px">
+        <label style="font-size:12px;color:var(--text3);display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="test-weak-only" style="accent-color:var(--accent)">
+          Hanya kanji yang belum dikuasai
+        </label>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -655,6 +713,7 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
   if (id === 'dashboard') renderDashboard();
+  if (id === 'test') renderTestGrid();
 }
 
 function startQuiz() {
@@ -793,7 +852,14 @@ function retryUnknown() {
 }
 
 function retryAll() { deck = shuffle([...deck]); idx = 0; knowN = 0; unknownN = 0; unknownCards = []; showScreen('quiz'); renderCard(); }
-function backToSelect() { showScreen('select'); }
+function backToSelect() { 
+  if (testFromScreen) { 
+    testFromScreen = false; 
+    showScreen('test'); 
+  } else { 
+    showScreen('select'); 
+  } 
+}
 
 function onKey(e) {
   const q = document.getElementById('screen-quiz');
@@ -803,6 +869,135 @@ function onKey(e) {
   else if (e.key === '1' && flipped) { rate(false); }
   else if (e.key === '2' && flipped) { rate(true); }
 }
+
+// ═══════════════ TEST KANJI PER BAGIAN ═══════════════
+const CHUNK_SIZE = 25;
+let testSelectedBagian = new Set();
+let testMode = 'k2a';
+let testFromScreen = false;
+
+function getTestChunks() {
+  const total = RAW.length;
+  const chunks = [];
+  for (let i = 0; i < total; i += CHUNK_SIZE) {
+    const from = i + 1;
+    const to = Math.min(i + CHUNK_SIZE, total);
+    chunks.push({ from, to, index: chunks.length + 1 });
+  }
+  return chunks;
+}
+
+function getChunkMasteryPct(chunk, data) {
+  const kanjiInChunk = RAW.filter(r => r[0] >= chunk.from && r[0] <= chunk.to);
+  if (kanjiInChunk.length === 0) return 0;
+  let mastered = 0;
+  kanjiInChunk.forEach(r => {
+    const stat = data.kanjiStats[r[0]];
+    if (stat && getSRSLevel(stat) >= 3) mastered++;
+  });
+  return Math.round((mastered / kanjiInChunk.length) * 100);
+}
+
+function getChunkLevelClass(pct) {
+  if (pct === 0) return 'level-gray';
+  if (pct < 50) return 'level-red';
+  if (pct < 80) return 'level-yellow';
+  return 'level-green';
+}
+
+function renderTestGrid() {
+  const grid = document.getElementById('test-grid');
+  const chunks = getTestChunks();
+  const data = loadData();
+  
+  grid.innerHTML = chunks.map(chunk => {
+    const pct = getChunkMasteryPct(chunk, data);
+    const levelClass = getChunkLevelClass(pct);
+    const isSelected = testSelectedBagian.has(chunk.index);
+    return `<div class="test-block ${levelClass}${isSelected ? ' selected-block' : ''}" onclick="toggleTestBagian(${chunk.index})" data-bagian="${chunk.index}">
+      <div class="test-block-title">Bagian ${chunk.index}</div>
+      <div class="test-block-range">${chunk.from} - ${chunk.to}</div>
+      <div class="test-block-pct">${pct}%</div>
+      <div class="test-block-label">dikuasai</div>
+    </div>`;
+  }).join('');
+  
+  updateTestFooter();
+}
+
+function toggleTestBagian(index) {
+  if (testSelectedBagian.has(index)) {
+    testSelectedBagian.delete(index);
+  } else {
+    testSelectedBagian.add(index);
+  }
+  // Update visual
+  const blocks = document.querySelectorAll('.test-block');
+  blocks.forEach(b => {
+    const bagian = parseInt(b.dataset.bagian);
+    b.classList.toggle('selected-block', testSelectedBagian.has(bagian));
+  });
+  updateTestFooter();
+}
+
+function updateTestFooter() {
+  const footer = document.getElementById('test-footer');
+  footer.style.display = testSelectedBagian.size > 0 ? 'block' : 'none';
+}
+
+function setTestMode(m) {
+  testMode = m;
+  ['k2a','a2k','mix'].forEach(x => {
+    document.getElementById('test-mode-' + x).classList.toggle('on', x === m);
+  });
+}
+
+function startTestQuiz() {
+  if (testSelectedBagian.size === 0) {
+    showToast('Pilih minimal 1 bagian!');
+    return;
+  }
+  
+  const chunks = getTestChunks();
+  const data = loadData();
+  const weakOnly = document.getElementById('test-weak-only').checked;
+  
+  let cards = [];
+  testSelectedBagian.forEach(bagianIdx => {
+    const chunk = chunks[bagianIdx - 1];
+    if (!chunk) return;
+    const kanjiInChunk = RAW.filter(r => r[0] >= chunk.from && r[0] <= chunk.to);
+    
+    if (weakOnly) {
+      kanjiInChunk.forEach(r => {
+        const stat = data.kanjiStats[r[0]];
+        const level = stat ? getSRSLevel(stat) : 0;
+        if (level < 3) cards.push(r);
+      });
+    } else {
+      cards = cards.concat(kanjiInChunk);
+    }
+  });
+  
+  if (cards.length === 0) {
+    showToast('Tidak ada kanji yang perlu di-review di bagian ini!');
+    return;
+  }
+  
+  // Set the quiz mode
+  mode = testMode;
+  testFromScreen = true;
+  
+  // Start the quiz with these cards
+  deck = shuffle([...cards]);
+  idx = 0; knowN = 0; unknownN = 0; unknownCards = [];
+  showScreen('quiz');
+  renderCard();
+}
+
+// Override backToSelect to go back to test screen if came from there
+const originalBackToSelect = typeof backToSelect !== 'undefined' ? backToSelect : null;
+
 
 // ═══════════════ SERVICE WORKER REGISTRATION ═══════════════
 if ('serviceWorker' in navigator) {
