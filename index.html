@@ -330,7 +330,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
   <div id="dash-review-section" style="display:none">
     <p class="section-title">Review Sekarang</p>
     <div class="panel" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-      <p style="font-size:13px;color:var(--text2);margin:0;flex:1">Ada <strong id="dash-due-count" style="color:var(--blue)">0</strong> kanji yang sudah waktunya di-review ulang.</p>
+      <p style="font-size:13px;color:var(--text2);margin:0;flex:1">Ada <strong id="dash-due-count" style="color:var(--blue)">0</strong> kanji yang siap untuk dipelajari/di-review.</p>
       <button class="btn btn-accent" onclick="startDueReview()">Review Sekarang &#8594;</button>
     </div>
   </div>
@@ -376,7 +376,7 @@ const RAW=[
 [1,"山","やま","Gunung"],[2,"富士山","ふじさん","Gunung Fuji"],[3,"登山","とざん","Mendaki gunung"],[4,"火山","かざん","Gunung berapi"],[5,"川","かわ","Sungai"],[6,"川遊び","かわあそび","Bermain di sungai"],[7,"田舎","いなか","Desa"],[8,"日曜日","にちようび","Hari Minggu"],[9,"一月","いちがつ","Januari"],[10,"毎月","まいつき","Setiap bulan"],
 [11,"来月","らいげつ","Bulan depan"],[12,"お正月","おしょうがつ","Tahun baru"],[13,"現金","げんきん","Uang tunai"],[14,"お土産","おみやげ","Oleh-oleh"],[15,"調子","ちょうし","Kondisi"],[16,"女子","じょし","Perempuan"],[17,"様子","ようす","Keadaan"],[18,"火","ひ","Api"],[19,"火曜日","かようび","Selasa"],[20,"水","みず","Air"],
 [21,"水泳","すいえい","Berenang"],[22,"水曜日","すいようび","Rabu"],[23,"水道","すいどう","Saluran air"],[24,"木","き","Pohon"],[25,"木曜日","もくようび","Kamis"],[26,"金","かね","Uang"],[27,"お金","おかね","Uang"],[28,"金曜日","きんようび","Jumat"],[29,"土","つち","Tanah"],[30,"土地","とち","Tanah"],
-[31,"土曜日","どようび","Sabtu"],[32,"一","いち","Satu"],[33,"二","に","Dua"],[34,"三","さん","Tiga"],[35,"四","よん","Empat"],[36,"五","こ","Lima"],[37,"六","ろく","Enam"],[38,"七","なな","Tujuh"],[39,"八","はち","Delapan"],[40,"九","きゅう","Sembilan"],
+[31,"土曜日","どようび","Sabtu"],[32,"一","いち","Satu"],[33,"二","に","Dua"],[34,"三","さん","Tiga"],[35,"四","よん","Empat"],[36,"五","ご","Lima"],[37,"六","ろく","Enam"],[38,"七","なな","Tujuh"],[39,"八","はち","Delapan"],[40,"九","きゅう","Sembilan"],
 [41,"十","じゅう","Sepuluh"],[42,"百","ひゃく","Seratus"],[43,"千","せん","Seribu"],[44,"万","まん","Sepuluh ribu"],[45,"口","くち","Mulut"],[46,"人口","じんこう","Populasi"],[47,"入口","いりぐち","Pintu masuk"],[48,"出口","でぐち","Pintu keluar"],[49,"目","め","Mata"],[50,"耳","みみ","Telinga"],
 
 [51,"手","て","Tangan"],[52,"下手","へた","Tidak pandai"],[53,"足","あし","Kaki"],[54,"力","ちから","Tenaga"],[55,"月","つき","Bulan"],[56,"月曜日","げつようび","Senin"],[57,"今月","こんげつ","Bulan ini"],[58,"上","うえ","Atas"],[59,"下","した","Bawah"],[60,"左","ひだり","Kiri"],
@@ -394,15 +394,15 @@ const RAW=[
 [161,"毎晩","まいばん","Setiap malam"],[162,"毎年","まいとし","Setiap tahun"],[163,"海","うみ","Laut"],[164,"海外","かいがい","Luar negeri"],[165,"駅","えき","Stasiun"],[166,"駅員","えきいん","Petugas stasiun"],[167,"駐車場","ちゅうしゃじょう","Tempat parkir"],[168,"試験","しけん","Ujian"],[169,"受験する","じゅけんする","Ikut ujian"],[170,"経験","けいけん","Pengalaman"],
 [171,"体験","たいけん","Pengalaman"],[172,"間","あいだ","Antara"],[173,"時間","じかん","Waktu"],[174,"間に合う","まにあう","Tepat waktu"],[175,"間違い","まちがい","Kesalahan"],[176,"人間","にんげん","Manusia"],[177,"聞く","きく","Mendengar"],[178,"聞こえる","きこえる","Terdengar"],[179,"新聞","しんぶん","Koran"],[180,"開く","あく","Terbuka"],
 [181,"開ける","あける","Membuka"],[182,"開店","かいてん","Buka toko"],[183,"開始","かいし","Mulai"],[184,"閉まる","しまる","Tertutup"],[185,"閉める","しめる","Menutup"],[186,"閉店","へいてん","Tutup toko"],[187,"問題","もんだい","Masalah"],[188,"質問する","しつもんする","Bertanya"],[189,"訪問する","ほうもんする","Mengunjungi"],[190,"問い合わせ","といあわせ","Pertanyaan"],
-[191,"大きい","おおきい","Besar"],[192,"大丈夫","だいじょうぶ","Tidak apa-apa"],[193,"大人","おとな","Orang dewasa"],[194,"大切な","たいせつな","Penting"],[195,"大変な","たいへんな","Berat"],[196,"小さい","ちいさい","Kecil"],[197,"小学生","しょうがくせい","Murid SD"],[198,"少し","すこし","Sedikit"],[199,"少ない","すくない","Sedikit"],[200,"多い","おおい","Banyak"],
+[191,"大きい","おおきい","Besar"],[192,"大丈夫","だいじょうぶ","Tidak apa-apa"],[193,"大勢","おおぜい","Banyak orang"],[194,"大切な","たいせつな","Penting"],[195,"大変な","たいへんな","Berat"],[196,"小さい","ちいさい","Kecil"],[197,"小学生","しょうがくせい","Murid SD"],[198,"少し","すこし","Sedikit"],[199,"少ない","すくない","Sedikit"],[200,"多い","おおい","Banyak"],
 
 [201,"多分","たぶん","Mungkin"],[202,"高い","たかい","Tinggi/mahal"],[203,"高校","こうこう","SMA"],[204,"早い","はやい","Cepat"],[205,"古い","ふるい","Lama/tua"],[206,"長い","ながい","Panjang"],[207,"社長","しゃちょう","Direktur utama"],[208,"部長","ぶちょう","Kepala bagian"],[209,"元気な","げんきな","Sehat"],[210,"元日","がんじつ","Hari tahun baru"],
 [211,"地元","じもと","Lokal"],[212,"音楽","おんがく","Musik"],[213,"楽しい","たのしい","Menyenangkan"],[214,"楽な","らくな","Mudah"],[215,"正しい","ただしい","Benar"],[216,"お正月","おしょうがつ","Tahun baru"],[217,"東","ひがし","Timur"],[218,"東口","ひがしぐち","Pintu timur"],[219,"東京","とうきょう","Tokyo"],[220,"西","にし","Barat"],
-[221,"西口","にしぐち","Pintu barat"],[222,"南","みなみ","Selatan"],[223,"南口","みなみぐち","Pintu selatan"],[224,"北","きた","Utara"],[225,"北口","きたぐち","Pintu utara"],[226,"右","みぎ","Kanan"],[227,"右手","みぎて","Tangan kanan"],[228,"左","ひだり","Kiri"],[229,"左手","ひだりて","Tangan kiri"],[230,"前","まえ","Depan"],
+[221,"西口","にしぐち","Pintu barat"],[222,"南","みなみ","Selatan"],[223,"南口","みなみぐち","Pintu selatan"],[224,"北","きた","Utara"],[225,"北口","きたぐち","Pintu utara"],[226,"右側","みぎがわ","Sisi kanan"],[227,"右手","みぎて","Tangan kanan"],[228,"左側","ひだりがわ","Sisi kiri"],[229,"左手","ひだりて","Tangan kiri"],[230,"前","まえ","Depan"],
 [231,"午前","ごぜん","Pagi/AM"],[232,"午前中","ごぜんちゅう","Pagi hari"],[233,"名前","なまえ","Nama"],[234,"後ろ","うしろ","Belakang"],[235,"後で","あとで","Nanti"],[236,"午後","ごご","Sore/PM"],[237,"最後","さいご","Terakhir"],[238,"外","そと","Luar"],[239,"知る","しる","Mengetahui"],[240,"知らせる","しらせる","Memberitahu"],
 [241,"知り合い","しりあい","Kenalan"],[242,"知識","ちしき","Pengetahuan"],[243,"歌","うた","Lagu"],[244,"歌う","うたう","Menyanyi"],[245,"歌手","かしゅ","Penyanyi"],[246,"国歌","こっか","Lagu kebangsaan"],[247,"青","あお","Biru"],[248,"青い","あおい","Biru"],[249,"青信号","あおしんごう","Lampu hijau"],[250,"赤","あか","Merah"],
 [251,"赤い","あかい","Merah"],[252,"赤ちゃん","あかちゃん","Bayi"],[253,"赤外線","せきがいせん","Inframerah"],[254,"天気","てんき","Cuaca"],[255,"気持ち","きもち","Perasaan"],[256,"病気","びょうき","Sakit"],[257,"元気","げんき","Sehat"],[258,"空気","くうき","Udara"],[259,"話","はなし","Cerita"],[260,"会話","かいわ","Percakapan"],
-[261,"電話","てんわ","Telepon"],[262,"読む","よむ","Membaca"],[263,"読書","どくしょ","Membaca buku"],[264,"日本語","にほんご","Bahasa Jepang"],[265,"外国語","がいこくご","Bahasa asing"],[266,"単語","たんご","Kosakata"],[267,"持つ","もつ","Membawa"],[268,"お金持ち","おかねもち","Orang kaya"],[269,"待つ","まつ","Menunggu"],[270,"一時","いちじ","Jam 1"],
+[261,"電話番号","でんわばんごう","Nomor telepon"],[262,"読む","よむ","Membaca"],[263,"読書","どくしょ","Membaca buku"],[264,"日本語","にほんご","Bahasa Jepang"],[265,"外国語","がいこくご","Bahasa asing"],[266,"単語","たんご","Kosakata"],[267,"持つ","もつ","Membawa"],[268,"お金持ち","おかねもち","Orang kaya"],[269,"待つ","まつ","Menunggu"],[270,"一時","いちじ","Jam 1"],
 [271,"時々","ときどき","Kadang-kadang"],[272,"時計","とけい","Jam"],[273,"時代","じだい","Zaman"],[274,"花見","はなみ","Melihat bunga"],[275,"花火","はなび","Kembang api"],[276,"お茶","おちゃ","Teh hijau"],[277,"紅茶","こうちゃ","Teh hitam"],[278,"薬","くすり","Obat"],[279,"薬屋","くすりや","Toko obat"],[280,"目薬","めぐすり","Obat mata"],
 
 [281,"野菜","やさい","Sayur"],[282,"洗う","あらう","Mencuci"],[283,"お手洗い","おてあらい","Kamar mandi"],[284,"注意する","ちゅういする","Memperhatikan"],[285,"注文する","ちゅうもんする","Memesan"],[286,"泣く","なく","Menangis"],[287,"浴びる","あびる","Mandi"],[288,"太平洋","たいへいよう","Pasifik"],[289,"大西洋","たいせいよう","Atlantik"],[290,"東洋","とうよう","Timur"],
@@ -508,6 +508,19 @@ function getDueForReview(data) {
   return due;
 }
 
+// Get kanji that have never been reviewed (new cards for SRS)
+function getNewKanji(data, limit) {
+  const newCards = [];
+  for (let i = 0; i < RAW.length; i++) {
+    const id = RAW[i][0];
+    if (!data.kanjiStats[id]) {
+      newCards.push(id);
+      if (limit && newCards.length >= limit) break;
+    }
+  }
+  return newCards;
+}
+
 
 // ═══════════════ EXPORT / IMPORT ═══════════════
 function exportData() {
@@ -588,11 +601,13 @@ function renderDashboard() {
   document.getElementById('dash-pct').textContent = pct + '% (' + mastered + '/' + total + ')';
   document.getElementById('dash-progress').style.width = pct + '%';
 
-  // FIX BUG 4: Show/hide review button based on due count
+  // FIX BUG 4: Show/hide review button based on due count + new kanji
   const reviewSection = document.getElementById('dash-review-section');
-  if (due > 0) {
+  const newKanji = getNewKanji(data, 10);
+  const totalActionable = due + newKanji.length;
+  if (totalActionable > 0) {
     reviewSection.style.display = 'block';
-    document.getElementById('dash-due-count').textContent = due;
+    document.getElementById('dash-due-count').textContent = due > 0 ? due + ' review' + (newKanji.length > 0 ? ' + ' + newKanji.length + ' baru' : '') : newKanji.length + ' baru';
   } else {
     reviewSection.style.display = 'none';
   }
@@ -985,14 +1000,22 @@ function startMainTestQuiz() {
 function startDueReview() {
   const data = loadData();
   const dueIds = getDueForReview(data);
-  if (dueIds.length === 0) {
+  const newIds = getNewKanji(data, 25);
+  
+  if (dueIds.length === 0 && newIds.length === 0) {
     showToast('Tidak ada kanji yang perlu di-review saat ini!');
     return;
   }
   
-  // Ambil kartu yang due, max 25
-  let cards = RAW.filter(r => dueIds.includes(r[0]));
-  cards = cards.slice(0, 25);
+  // Combine due cards + new cards, max 25 total
+  let cardIds = [...dueIds];
+  const remaining = 25 - cardIds.length;
+  if (remaining > 0) {
+    cardIds = cardIds.concat(newIds.slice(0, remaining));
+  }
+  cardIds = cardIds.slice(0, 25);
+  
+  let cards = RAW.filter(r => cardIds.includes(r[0]));
   
   // Set mode SRS untuk review
   originalMode = mode;
