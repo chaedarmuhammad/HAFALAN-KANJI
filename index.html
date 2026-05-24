@@ -153,8 +153,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
 .toast.show{opacity:1}
 
 /* Test Kanji Grid */
-.test-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
-.test-block{border-radius:var(--radius);padding:20px 14px;text-align:center;cursor:pointer;transition:all 0.2s;border:2px solid transparent;position:relative;user-select:none}
+.test-grid{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.test-block{border-radius:var(--radius);padding:20px 14px;text-align:center;cursor:pointer;transition:all 0.2s;border:2px solid transparent;position:relative;user-select:none;width:140px;flex-shrink:0}
 .test-block:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.3)}
 .test-block.selected-block{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,0.3)}
 .test-block-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px}
@@ -167,9 +167,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
 .test-block.level-gray{background:var(--surface2)}
 .test-block.level-gray .test-block-range,.test-block.level-gray .test-block-label{color:var(--text3)}
 .test-block.level-gray .test-block-title,.test-block.level-gray .test-block-pct{color:var(--text2)}
+@media(max-width:800px){
+  .test-block{width:calc(33.33% - 10px)}
+}
 @media(max-width:500px){
-  .test-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
-  .test-block{padding:14px 10px}
+  .test-block{width:calc(50% - 8px);padding:14px 10px}
   .test-block-title{font-size:12px}
   .test-block-pct{font-size:18px}
 }
@@ -480,7 +482,7 @@ function getNextReviewInterval(level) {
 function getMasteredCount(data) {
   let count = 0;
   for (const id in data.kanjiStats) {
-    if (getSRSLevel(data.kanjiStats[id]) >= 4) count++;
+    if (getSRSLevel(data.kanjiStats[id]) >= 3) count++;
   }
   return count;
 }
@@ -653,8 +655,8 @@ function startQuiz() {
       if (sa.nextReview && sb.nextReview) return sa.nextReview - sb.nextReview;
       return la - lb;
     });
-    // Limit to 30 cards in SRS mode
-    cards = cards.slice(0, 30);
+    // Limit to 25 cards in SRS mode
+    cards = cards.slice(0, 25);
   }
 
   deck = shuffle([...cards]);
@@ -672,7 +674,7 @@ let cardMode = 'k2a';
 function renderCard() {
   flipped = false;
   const r = deck[idx];
-  cardMode = (mode === 'mix' || mode === 'srs') ? (idx % 2 === 0 ? 'k2a' : 'a2k') : mode;
+  cardMode = mode === 'srs' ? 'a2k' : (mode === 'mix' ? (idx % 2 === 0 ? 'k2a' : 'a2k') : mode);
   document.getElementById('card-badge').textContent = cardMode === 'k2a' ? 'Kanji \u2192 Arti' : 'Arti \u2192 Kanji';
   document.getElementById('card-no').textContent = '#' + r[0];
   const main = document.getElementById('card-main');
