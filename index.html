@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Aplikasi flashcard interaktif untuk menghafal 557 kanji Jepang dengan Spaced Repetition dan progress tracking.">
 <meta name="keywords" content="kanji, flashcard, belajar jepang, hafalan kanji, spaced repetition">
 <meta name="theme-color" content="#0f0e0d">
@@ -17,7 +17,7 @@
 
 :root{--bg:#0f0e0d;--surface:#1a1917;--surface2:#242220;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);--text:#f0ede8;--text2:#9a9590;--text3:#5c5954;--accent:#e8c97a;--accent2:#c4a355;--green:#6dbf8a;--red:#e07070;--blue:#7aade8;--green-bg:rgba(109,191,138,0.12);--red-bg:rgba(224,112,112,0.12);--blue-bg:rgba(122,173,232,0.12);--radius:12px;--radius-lg:18px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 header{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--border);background:var(--surface)}
 .logo{display:flex;align-items:baseline;gap:10px}
 .logo-kanji{font-family:'Noto Serif JP',serif;font-size:24px;color:var(--accent);line-height:1}
@@ -33,7 +33,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 28px}
 .range-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .range-row label{font-size:13px;color:var(--text2)}
-.num-input{width:72px;padding:8px 10px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;transition:border-color 0.2s}
+.num-input{width:72px;padding:8px 10px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;text-align:center;outline:none;transition:border-color 0.2s}
 .num-input:focus{border-color:var(--accent2)}
 .btn{padding:9px 18px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;font-weight:400}
 .btn:hover{background:var(--surface2);border-color:var(--border2)}
@@ -140,13 +140,58 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+/* iPad (768px - 1024px) */
+@media(max-width:1024px){
+  #screen-select,#screen-dashboard{max-width:100%;padding:36px 24px}
+  #screen-quiz{max-width:100%}
+  #screen-result{max-width:100%}
+}
+/* iPad Mini / Small tablets (max-width 768px) */
+@media(max-width:768px){
+  header{padding:16px 20px}
+  .dash-grid{grid-template-columns:repeat(2,1fr)}
+  .result-big-stats{gap:12px}
+  .range-row{gap:10px}
+}
+/* iPhone / Mobile (max-width 500px) */
 @media(max-width:500px){
-  header{padding:14px 18px}
-  #screen-select,#screen-dashboard{padding:24px 16px;gap:24px}
-  #screen-quiz{padding:24px 16px}
+  header{padding:14px 16px}
+  .logo-kanji{font-size:20px}
+  .logo-text{font-size:11px}
+  #screen-select,#screen-dashboard{padding:20px 14px;gap:20px}
+  #screen-quiz{padding:20px 14px}
+  .panel{padding:18px 16px}
   .card-main{font-size:52px}
+  .card{min-height:250px;padding:36px 20px}
   .header-stats{display:none}
   .dash-grid{grid-template-columns:1fr 1fr}
+  .dash-num{font-size:26px}
+  .mode-btn{padding:8px 14px;font-size:12px}
+  .btn{padding:8px 14px;font-size:12px}
+  .btn-rate{padding:12px;font-size:13px}
+  .result-icon{font-size:44px}
+  .result-title{font-size:22px}
+  .res-num{font-size:32px}
+  .keyboard-hints{display:none}
+  .section-title{font-size:10px}
+  .history-item{padding:12px 14px;font-size:12px}
+}
+/* iPhone SE / very small screens */
+@media(max-width:375px){
+  .card-main{font-size:44px}
+  .card-main.latin{font-size:22px}
+  .card{min-height:220px;padding:28px 16px}
+  .dash-grid{gap:8px}
+  .dash-card{padding:16px 12px}
+  .dash-num{font-size:22px}
+  .mode-group{gap:6px}
+  .mode-btn{padding:7px 12px;font-size:11px}
+  .range-row{gap:8px}
+  .num-input{width:60px;padding:6px 8px;font-size:13px}
+  .btn-rate{padding:10px;font-size:12px}
+  .stats-row{gap:6px}
+  .stat-card{padding:10px 8px}
+  .stat-num{font-size:20px}
 }
 /* Toast notification */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:12px 20px;font-size:13px;color:var(--text);z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none}
@@ -167,6 +212,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
 .test-block.level-gray{background:var(--surface2)}
 .test-block.level-gray .test-block-range,.test-block.level-gray .test-block-label{color:var(--text3)}
 .test-block.level-gray .test-block-title,.test-block.level-gray .test-block-pct{color:var(--text2)}
+/* Test Kanji Grid - Tablet */
+@media(max-width:1024px){
+  .test-block{width:calc(25% - 10px)}
+}
 @media(max-width:800px){
   .test-block{width:calc(33.33% - 10px)}
 }
@@ -174,6 +223,12 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
   .test-block{width:calc(50% - 8px);padding:14px 10px}
   .test-block-title{font-size:12px}
   .test-block-pct{font-size:18px}
+}
+@media(max-width:375px){
+  .test-block{width:calc(50% - 6px);padding:12px 8px}
+  .test-block-title{font-size:11px}
+  .test-block-pct{font-size:16px}
+  .test-block-range{font-size:10px}
 }
 </style>
 </head>
