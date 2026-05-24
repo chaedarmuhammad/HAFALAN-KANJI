@@ -41,11 +41,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 .btn-sm{padding:6px 12px;font-size:12px}
 .btn-danger{border-color:var(--red);color:var(--red)}
 .btn-danger:hover{background:var(--red-bg)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:7px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;font-weight:400}
-.chip:hover{border-color:var(--border2);color:var(--text)}
-.chip.on{background:var(--accent);color:#0f0e0d;border-color:var(--accent);font-weight:500}
-.chip.mastered{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+
 
 .mode-group{display:flex;gap:8px;flex-wrap:wrap}
 .mode-btn{padding:9px 20px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s}
@@ -54,21 +50,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 .sel-footer{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:8px}
 .sel-count{font-size:13px;color:var(--text2);margin-left:auto}
 .sel-count strong{color:var(--accent)}
-.search-wrap{position:relative}
-.search-input{width:100%;padding:10px 14px 10px 38px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
-.search-input:focus{border-color:var(--border2)}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;pointer-events:none}
-.search-results{margin-top:10px;max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
-.search-item{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background 0.12s}
-.search-item:hover{background:var(--surface2)}
-.search-item.selected-item{background:rgba(232,201,122,0.08)}
-.si-num{font-size:11px;color:var(--text3);min-width:28px}
-.si-kanji{font-family:'Noto Serif JP',serif;font-size:18px;color:var(--text);min-width:48px}
-.si-kana{font-size:12px;color:var(--text2);min-width:110px}
-.si-meaning{font-size:13px;color:var(--text2);flex:1}
-.si-check{width:18px;height:18px;border-radius:4px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;color:transparent;transition:all 0.15s}
-.selected-item .si-check{background:var(--accent);border-color:var(--accent);color:#0f0e0d}
-.si-srs{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:500}
+
 
 /* Quiz Screen */
 #screen-quiz{max-width:640px;margin:0 auto;width:100%;padding:32px 24px;gap:0;align-items:stretch}
@@ -181,7 +163,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
   .test-block{padding:14px 10px}
   .test-block-title{font-size:12px}
   .test-block-pct{font-size:18px}
-  #screen-test > div:first-child,#screen-test .test-grid,#screen-test #test-footer{padding-left:16px!important;padding-right:16px!important}
 }
 </style>
 </head>
@@ -197,7 +178,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
       <div class="header-stat">Total: <span>557</span> kanji</div>
       <div class="header-stat">Dikuasai: <span id="h-mastered">0</span></div>
     </div>
-    <button class="btn btn-sm" onclick="showScreen('test')">Test Kanji</button>
     <button class="btn btn-sm" onclick="showScreen('dashboard')">Dashboard</button>
   </div>
 </header>
@@ -218,17 +198,30 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
     </div>
   </div>
   <div>
-    <p class="section-title">Pilih cepat per kelompok</p>
-    <div class="panel"><div class="chips" id="cat-chips"></div></div>
-  </div>
-  <div>
-    <p class="section-title">Cari kanji spesifik</p>
-    <div class="panel">
-      <div class="search-wrap">
-        <span class="search-icon">&#128269;</span>
-        <input type="text" class="search-input" id="search-input" placeholder="Ketik kanji, hiragana, atau arti...">
+    <p class="section-title">Test Kanji per Bagian</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Pilih bagian yang ingin di-test. Setiap bagian berisi 25 kanji. Warna menunjukkan tingkat penguasaan.</p>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#c0392b;display:inline-block"></span> &lt;50%</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#f39c12;display:inline-block"></span> 50-79%</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#27ae60;display:inline-block"></span> &#8805;80%</span>
+    </div>
+    <div class="test-grid" id="main-test-grid"></div>
+    <div id="main-test-footer" style="margin-top:16px;display:none">
+      <div class="panel" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <span style="font-size:13px;color:var(--text2)">Mode test:</span>
+        <div class="mode-group">
+          <button class="mode-btn on" id="main-test-mode-k2a" onclick="setMainTestMode('k2a')">Kanji &#8594; Arti</button>
+          <button class="mode-btn" id="main-test-mode-a2k" onclick="setMainTestMode('a2k')">Arti &#8594; Kanji</button>
+          <button class="mode-btn" id="main-test-mode-mix" onclick="setMainTestMode('mix')">Campur</button>
+        </div>
+        <button class="btn btn-accent" style="margin-left:auto;padding:11px 24px" onclick="startMainTestQuiz()">Mulai Test &#8594;</button>
+        <div style="width:100%;margin-top:4px">
+          <label style="font-size:12px;color:var(--text3);display:flex;align-items:center;gap:8px;cursor:pointer">
+            <input type="checkbox" id="main-test-weak-only" style="accent-color:var(--accent)">
+            Hanya kanji yang belum dikuasai
+          </label>
+        </div>
       </div>
-      <div class="search-results" id="search-results"></div>
     </div>
   </div>
   <div>
@@ -304,40 +297,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
     <button class="btn btn-accent" onclick="retryUnknown()">Ulangi yang belum &#8594;</button>
     <button class="btn" onclick="retryAll()">Ulangi semua</button>
     <button class="btn" onclick="backToSelect()">Pilih kanji lain</button>
-  </div>
-</div>
-
-<!-- TEST KANJI SCREEN -->
-<div id="screen-test" class="screen">
-  <div style="display:flex;align-items:center;justify-content:space-between;max-width:860px;margin:0 auto;width:100%;padding:40px 32px 0">
-    <p class="section-title" style="margin:0">Test Kanji per Bagian</p>
-    <button class="btn btn-sm" onclick="showScreen('select')">&#8592; Kembali</button>
-  </div>
-  <div style="max-width:860px;margin:0 auto;width:100%;padding:16px 32px">
-    <p style="font-size:13px;color:var(--text2);margin-bottom:8px">Pilih bagian yang ingin di-test. Setiap bagian berisi 25 kanji. Warna menunjukkan tingkat penguasaan.</p>
-    <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#c0392b;display:inline-block"></span> Belum dikuasai (&lt;50%)</span>
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#f39c12;display:inline-block"></span> Sedang proses (50-79%)</span>
-      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:14px;height:14px;border-radius:4px;background:#27ae60;display:inline-block"></span> Dikuasai (&#8805;80%)</span>
-    </div>
-  </div>
-  <div class="test-grid" id="test-grid" style="max-width:860px;margin:0 auto;width:100%;padding:0 32px 40px"></div>
-  <div id="test-footer" style="max-width:860px;margin:0 auto;width:100%;padding:0 32px 40px;display:none">
-    <div class="panel" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-      <span style="font-size:13px;color:var(--text2)">Mode test:</span>
-      <div class="mode-group">
-        <button class="mode-btn on" id="test-mode-k2a" onclick="setTestMode('k2a')">Kanji &#8594; Arti</button>
-        <button class="mode-btn" id="test-mode-a2k" onclick="setTestMode('a2k')">Arti &#8594; Kanji</button>
-        <button class="mode-btn" id="test-mode-mix" onclick="setTestMode('mix')">Campur</button>
-      </div>
-      <button class="btn btn-accent" style="margin-left:auto;padding:11px 24px" onclick="startTestQuiz()">Mulai Test &#8594;</button>
-      <div style="width:100%;margin-top:4px">
-        <label style="font-size:12px;color:var(--text3);display:flex;align-items:center;gap:8px;cursor:pointer">
-          <input type="checkbox" id="test-weak-only" style="accent-color:var(--accent)">
-          Hanya kanji yang belum dikuasai
-        </label>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -618,25 +577,11 @@ function updateHeaderStats() {
 
 
 // ═══════════════ MAIN APP LOGIC ═══════════════
-const CATS=[
-  {label:"1-50",f:1,t:50},{label:"51-100",f:51,t:100},{label:"101-150",f:101,t:150},
-  {label:"151-200",f:151,t:200},{label:"201-250",f:201,t:250},{label:"251-300",f:251,t:300},
-  {label:"301-350",f:301,t:350},{label:"351-400",f:351,t:400},{label:"401-450",f:401,t:450},
-  {label:"451-557",f:451,t:557}
-];
-
 let selected = new Set(), mode = 'k2a', deck = [], idx = 0, flipped = false, knowN = 0, unknownN = 0, unknownCards = [];
 
 function init() {
-  CATS.forEach(c => {
-    const b = document.createElement('button');
-    b.className = 'chip';
-    b.textContent = c.label;
-    b.onclick = () => toggleCat(c, b);
-    document.getElementById('cat-chips').appendChild(b);
-  });
   applyRange();
-  document.getElementById('search-input').addEventListener('input', doSearch);
+  renderMainTestGrid();
   document.addEventListener('keydown', onKey);
   updateHeaderStats();
 }
@@ -646,34 +591,11 @@ function applyRange() {
   const t = parseInt(document.getElementById('range-to').value) || 100;
   selected.clear();
   RAW.forEach(r => { if (r[0] >= f && r[0] <= t) selected.add(r[0]); });
-  updateCatChips();
   updateCount();
 }
 
-function toggleCat(c, el) {
-  const all = RAW.filter(r => r[0] >= c.f && r[0] <= c.t).every(r => selected.has(r[0]));
-  RAW.forEach(r => { if (r[0] >= c.f && r[0] <= c.t) { all ? selected.delete(r[0]) : selected.add(r[0]); } });
-  updateCatChips();
-  updateCount();
-}
-
-function updateCatChips() {
-  const chips = document.querySelectorAll('#cat-chips .chip');
-  const data = loadData();
-  CATS.forEach((c, i) => {
-    const groupKanji = RAW.filter(r => r[0] >= c.f && r[0] <= c.t);
-    const all = groupKanji.every(r => selected.has(r[0]));
-    const allMastered = groupKanji.every(r => {
-      const stat = data.kanjiStats[r[0]];
-      return stat && getSRSLevel(stat) >= 4;
-    });
-    chips[i].classList.toggle('on', all);
-    chips[i].classList.toggle('mastered', allMastered && !all);
-  });
-}
-
-function selectAll() { RAW.forEach(r => selected.add(r[0])); updateCatChips(); updateCount(); }
-function clearAll() { selected.clear(); updateCatChips(); updateCount(); }
+function selectAll() { RAW.forEach(r => selected.add(r[0])); updateCount(); }
+function clearAll() { selected.clear(); updateCount(); }
 function updateCount() {
   document.getElementById('sel-count').innerHTML = 'Dipilih: <strong>' + selected.size + '</strong> kanji';
 }
@@ -683,37 +605,11 @@ function setMode(m) {
   ['k2a','a2k','mix','srs'].forEach(x => document.getElementById('mode-' + x).classList.toggle('on', x === m));
 }
 
-
-function doSearch() {
-  const q = document.getElementById('search-input').value.toLowerCase().trim();
-  const res = document.getElementById('search-results');
-  res.innerHTML = '';
-  if (!q) return;
-  const data = loadData();
-  const hits = RAW.filter(r => r[1].includes(q) || r[2].includes(q) || r[3].toLowerCase().includes(q)).slice(0, 30);
-  hits.forEach(r => {
-    const stat = data.kanjiStats[r[0]];
-    const level = stat ? getSRSLevel(stat) : 0;
-    const d = document.createElement('div');
-    d.className = 'search-item' + (selected.has(r[0]) ? ' selected-item' : '');
-    d.innerHTML = `<span class="si-num">${r[0]}</span><span class="si-kanji">${r[1]}</span><span class="si-kana">${r[2]}</span><span class="si-meaning">${r[3]}</span><span class="si-srs" style="color:${getSRSColor(level)};border:1px solid ${getSRSColor(level)};background:rgba(0,0,0,0.2)">${getSRSLabel(level)}</span><span class="si-check">${selected.has(r[0]) ? '\u2713' : ''}</span>`;
-    d.onclick = () => toggleOne(r[0], d);
-    res.appendChild(d);
-  });
-}
-
-function toggleOne(id, el) {
-  if (selected.has(id)) { selected.delete(id); el.classList.remove('selected-item'); el.querySelector('.si-check').textContent = ''; }
-  else { selected.add(id); el.classList.add('selected-item'); el.querySelector('.si-check').textContent = '\u2713'; }
-  updateCatChips();
-  updateCount();
-}
-
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
   if (id === 'dashboard') renderDashboard();
-  if (id === 'test') renderTestGrid();
+  if (id === 'select') renderMainTestGrid();
 }
 
 function startQuiz() {
@@ -855,10 +751,8 @@ function retryAll() { deck = shuffle([...deck]); idx = 0; knowN = 0; unknownN = 
 function backToSelect() { 
   if (testFromScreen) { 
     testFromScreen = false; 
-    showScreen('test'); 
-  } else { 
-    showScreen('select'); 
-  } 
+  }
+  showScreen('select'); 
 }
 
 function onKey(e) {
@@ -870,10 +764,10 @@ function onKey(e) {
   else if (e.key === '2' && flipped) { rate(true); }
 }
 
-// ═══════════════ TEST KANJI PER BAGIAN ═══════════════
+// ═══════════════ TEST KANJI PER BAGIAN (Main Menu) ═══════════════
 const CHUNK_SIZE = 25;
 let testSelectedBagian = new Set();
-let testMode = 'k2a';
+let mainTestMode = 'k2a';
 let testFromScreen = false;
 
 function getTestChunks() {
@@ -905,8 +799,9 @@ function getChunkLevelClass(pct) {
   return 'level-green';
 }
 
-function renderTestGrid() {
-  const grid = document.getElementById('test-grid');
+function renderMainTestGrid() {
+  const grid = document.getElementById('main-test-grid');
+  if (!grid) return;
   const chunks = getTestChunks();
   const data = loadData();
   
@@ -922,7 +817,7 @@ function renderTestGrid() {
     </div>`;
   }).join('');
   
-  updateTestFooter();
+  updateMainTestFooter();
 }
 
 function toggleTestBagian(index) {
@@ -932,27 +827,28 @@ function toggleTestBagian(index) {
     testSelectedBagian.add(index);
   }
   // Update visual
-  const blocks = document.querySelectorAll('.test-block');
+  const blocks = document.querySelectorAll('#main-test-grid .test-block');
   blocks.forEach(b => {
     const bagian = parseInt(b.dataset.bagian);
     b.classList.toggle('selected-block', testSelectedBagian.has(bagian));
   });
-  updateTestFooter();
+  updateMainTestFooter();
 }
 
-function updateTestFooter() {
-  const footer = document.getElementById('test-footer');
-  footer.style.display = testSelectedBagian.size > 0 ? 'block' : 'none';
+function updateMainTestFooter() {
+  const footer = document.getElementById('main-test-footer');
+  if (footer) footer.style.display = testSelectedBagian.size > 0 ? 'block' : 'none';
 }
 
-function setTestMode(m) {
-  testMode = m;
+function setMainTestMode(m) {
+  mainTestMode = m;
   ['k2a','a2k','mix'].forEach(x => {
-    document.getElementById('test-mode-' + x).classList.toggle('on', x === m);
+    const el = document.getElementById('main-test-mode-' + x);
+    if (el) el.classList.toggle('on', x === m);
   });
 }
 
-function startTestQuiz() {
+function startMainTestQuiz() {
   if (testSelectedBagian.size === 0) {
     showToast('Pilih minimal 1 bagian!');
     return;
@@ -960,7 +856,7 @@ function startTestQuiz() {
   
   const chunks = getTestChunks();
   const data = loadData();
-  const weakOnly = document.getElementById('test-weak-only').checked;
+  const weakOnly = document.getElementById('main-test-weak-only').checked;
   
   let cards = [];
   testSelectedBagian.forEach(bagianIdx => {
@@ -985,7 +881,7 @@ function startTestQuiz() {
   }
   
   // Set the quiz mode
-  mode = testMode;
+  mode = mainTestMode;
   testFromScreen = true;
   
   // Start the quiz with these cards
@@ -994,9 +890,6 @@ function startTestQuiz() {
   showScreen('quiz');
   renderCard();
 }
-
-// Override backToSelect to go back to test screen if came from there
-const originalBackToSelect = typeof backToSelect !== 'undefined' ? backToSelect : null;
 
 
 // ═══════════════ SERVICE WORKER REGISTRATION ═══════════════
