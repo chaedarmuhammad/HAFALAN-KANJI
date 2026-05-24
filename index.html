@@ -326,6 +326,15 @@ header{display:flex;align-items:center;justify-content:space-between;padding:18p
   <!-- Stats Cards -->
   <div class="dash-grid" id="dash-grid"></div>
 
+  <!-- FIX BUG 4: Tombol Review yang Due langsung dari Dashboard -->
+  <div id="dash-review-section" style="display:none">
+    <p class="section-title">Review Sekarang</p>
+    <div class="panel" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <p style="font-size:13px;color:var(--text2);margin:0;flex:1">Ada <strong id="dash-due-count" style="color:var(--blue)">0</strong> kanji yang sudah waktunya di-review ulang.</p>
+      <button class="btn btn-accent" onclick="startDueReview()">Review Sekarang &#8594;</button>
+    </div>
+  </div>
+
   <!-- Progress Bar -->
   <div>
     <p class="section-title">Progress Keseluruhan</p>
@@ -579,6 +588,15 @@ function renderDashboard() {
   document.getElementById('dash-pct').textContent = pct + '% (' + mastered + '/' + total + ')';
   document.getElementById('dash-progress').style.width = pct + '%';
 
+  // FIX BUG 4: Show/hide review button based on due count
+  const reviewSection = document.getElementById('dash-review-section');
+  if (due > 0) {
+    reviewSection.style.display = 'block';
+    document.getElementById('dash-due-count').textContent = due;
+  } else {
+    reviewSection.style.display = 'none';
+  }
+
   // History
   const hist = document.getElementById('dash-history');
   if (data.sessions.length === 0) {
@@ -602,6 +620,8 @@ function updateHeaderStats() {
 
 // ═══════════════ MAIN APP LOGIC ═══════════════
 let selected = new Set(), mode = 'k2a', deck = [], idx = 0, flipped = false, knowN = 0, unknownN = 0, unknownCards = [];
+let answeredInSession = new Set(); // Track kartu yang sudah dijawab dalam sesi ini
+let originalMode = 'k2a'; // Simpan mode original sebelum test per bagian
 
 function init() {
   applyRange();
@@ -661,13 +681,26 @@ function startQuiz() {
 
   deck = shuffle([...cards]);
   idx = 0; knowN = 0; unknownN = 0; unknownCards = [];
+  answeredInSession.clear(); // Reset track kartu yang sudah dijawab
   showScreen('quiz');
   renderCard();
 }
 
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
-function shuffleAndRestart() { deck = shuffle([...deck]); idx = 0; knowN = 0; unknownN = 0; unknownCards = []; renderCard(); }
+function shuffleAndRestart() { 
+  // FIX BUG 1: Hanya ambil kartu yang BELUM dijawab dalam sesi ini
+  const unanswered = deck.filter(r => !answeredInSession.has(r[0]));
+  if (unanswered.length === 0) {
+    // Semua sudah dijawab, mulai ulang tanpa duplikasi stats
+    showToast('Semua kartu sudah dijawab dalam sesi ini. Sesi akan diselesaikan.');
+    finishSession();
+    return;
+  }
+  deck = shuffle([...unanswered]); 
+  idx = 0; knowN = 0; unknownN = 0; unknownCards = []; 
+  renderCard(); 
+}
 
 
 let cardMode = 'k2a';
@@ -712,19 +745,37 @@ function rate(know) {
   const data = loadData();
   const stat = getKanjiStat(data, r[0]);
 
+  // FIX BUG 1 & 2: Cek apakah kartu sudah dijawab dalam sesi ini (mencegah duplikasi & inflasi)
+  const alreadyAnswered = answeredInSession.has(r[0]);
+
   if (know) {
     knowN++;
-    stat.correct++;
+    // Hanya update stats jika belum dijawab dalam sesi ini
+    if (!alreadyAnswered) {
+      stat.correct++;
+    }
   } else {
     unknownN++;
     unknownCards.push(deck[idx]);
-    stat.wrong++;
+    // Hanya update stats jika belum dijawab dalam sesi ini
+    if (!alreadyAnswered) {
+      stat.wrong++;
+    }
   }
 
+  // Selalu update lastSeen, level, dan nextReview
   stat.lastSeen = Date.now();
   stat.level = getSRSLevel(stat);
   stat.nextReview = Date.now() + getNextReviewInterval(stat.level) * 3600000;
-  data.totalReviews++;
+  
+  // Hanya tambah totalReviews jika belum dijawab dalam sesi ini
+  if (!alreadyAnswered) {
+    data.totalReviews++;
+  }
+  
+  // Tandai kartu sebagai sudah dijawab
+  answeredInSession.add(r[0]);
+  
   saveData(data);
 
   document.getElementById('stat-know').textContent = knowN;
@@ -767,14 +818,24 @@ function showResult() {
 
 function retryUnknown() {
   if (!unknownCards.length) { alert('Semua sudah tahu!'); return; }
+  // FIX BUG 2: Reset answeredInSession agar retry bisa update stats sekali lagi
+  // Tapi hanya untuk kartu yang di-retry (memberi kesempatan 1x lagi)
+  unknownCards.forEach(r => answeredInSession.delete(r[0]));
   deck = shuffle([...unknownCards]); idx = 0; knowN = 0; unknownN = 0; unknownCards = [];
   showScreen('quiz'); renderCard();
 }
 
-function retryAll() { deck = shuffle([...deck]); idx = 0; knowN = 0; unknownN = 0; unknownCards = []; showScreen('quiz'); renderCard(); }
+function retryAll() { 
+  // FIX BUG 2: Reset answeredInSession agar retry bisa update stats sekali lagi
+  deck.forEach(r => answeredInSession.delete(r[0]));
+  deck = shuffle([...deck]); idx = 0; knowN = 0; unknownN = 0; unknownCards = []; 
+  showScreen('quiz'); renderCard(); 
+}
 function backToSelect() { 
   if (testFromScreen) { 
-    testFromScreen = false; 
+    testFromScreen = false;
+    // FIX BUG 3: Restore mode original setelah test per bagian selesai
+    mode = originalMode;
   }
   showScreen('select'); 
 }
@@ -904,6 +965,9 @@ function startMainTestQuiz() {
     return;
   }
   
+  // FIX BUG 3: Simpan mode original sebelum overwrite
+  originalMode = mode;
+  
   // Set the quiz mode
   mode = mainTestMode;
   testFromScreen = true;
@@ -911,6 +975,34 @@ function startMainTestQuiz() {
   // Start the quiz with these cards
   deck = shuffle([...cards]);
   idx = 0; knowN = 0; unknownN = 0; unknownCards = [];
+  answeredInSession.clear(); // Reset track kartu yang sudah dijawab
+  showScreen('quiz');
+  renderCard();
+}
+
+
+// ═══════════════ REVIEW DUE DARI DASHBOARD ═══════════════
+function startDueReview() {
+  const data = loadData();
+  const dueIds = getDueForReview(data);
+  if (dueIds.length === 0) {
+    showToast('Tidak ada kanji yang perlu di-review saat ini!');
+    return;
+  }
+  
+  // Ambil kartu yang due, max 25
+  let cards = RAW.filter(r => dueIds.includes(r[0]));
+  cards = cards.slice(0, 25);
+  
+  // Set mode SRS untuk review
+  originalMode = mode;
+  mode = 'srs';
+  testFromScreen = false;
+  
+  // Mulai kuis
+  deck = shuffle([...cards]);
+  idx = 0; knowN = 0; unknownN = 0; unknownCards = [];
+  answeredInSession.clear();
   showScreen('quiz');
   renderCard();
 }
